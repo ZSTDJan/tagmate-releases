@@ -1,0 +1,82 @@
+name: One-time R2 to GitHub release transfer 20260805
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tagmate-release-transfer-2026-08-05
+  cancel-in-progress: false
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Download, verify, and upload missing assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: tagmate-2026.08.05.223959
+          R2_BASE_URL: https://pub-d1808de916864ed59b6df6d462946673.r2.dev/tagmate-2026.08.05.223959
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/tagmate-r2-transfer"
+          mkdir -p "$work"
+
+          cat > "$work/assets.tsv" <<'ASSETS'
+          tagmate-installer-core-1.bin	1889601280	e0f7bad868dd7ec22f8b8b395d2741087878995e50ad56e8d9e6ef439213e394
+          tagmate-installer-core-2.bin	1900000000	fd48357fca059e8b4edc69d28b29df7a2f98c7d1130e4be985ad12461139f017
+          tagmate-installer-core-3.bin	1900000000	54aa11e00e232ddc05518eaab17aa2ac98392b6de3950b4978ffd3943c90ba54
+          ASSETS
+
+          while IFS=$'\t' read -r name expected_size expected_sha; do
+            remote_line="$(gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json assets --jq ".assets[] | select(.name == \"$name\") | [.size, .digest] | @tsv")"
+            if [[ -n "$remote_line" ]]; then
+              IFS=$'\t' read -r remote_size remote_digest <<< "$remote_line"
+              if [[ "$remote_size" != "$expected_size" || "$remote_digest" != "sha256:$expected_sha" ]]; then
+                echo "Existing asset mismatch: $name" >&2
+                exit 1
+              fi
+              echo "Already verified: $name"
+              continue
+            fi
+
+            file="$work/$name"
+            rm -f "$file"
+            curl --fail --location --show-error --silent --retry 10 --retry-all-errors --continue-at - --output "$file" "$R2_BASE_URL/$name"
+            actual_size="$(stat -c '%s' "$file")"
+            actual_sha="$(sha256sum "$file" | awk '{print $1}')"
+            if [[ "$actual_size" != "$expected_size" || "$actual_sha" != "$expected_sha" ]]; then
+              echo "Downloaded asset mismatch: $name size=$actual_size sha256=$actual_sha" >&2
+              exit 1
+            fi
+
+            gh release upload "$RELEASE_TAG" "$file" --repo "$GH_REPO"
+            rm -f "$file"
+
+            verified=false
+            for check in $(seq 1 30); do
+              remote_line="$(gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json assets --jq ".assets[] | select(.name == \"$name\") | [.size, .digest] | @tsv")"
+              if [[ "$remote_line" == "$expected_size"$'\t'"sha256:$expected_sha" ]]; then
+                verified=true
+                break
+              fi
+              sleep 5
+            done
+            if [[ "$verified" != true ]]; then
+              echo "Remote verification failed: $name" >&2
+              exit 1
+            fi
+            echo "Uploaded and verified: $name"
+          done < "$work/assets.tsv"
+
+          final="$(gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json isDraft,assets --jq '[.isDraft, (.assets | length)] | @tsv')"
+          if [[ "$final" != true$'\t'8 ]]; then
+            echo "Draft state or asset count mismatch: $final" >&2
+            exit 1
+          fi
+          echo "Draft contains 8 verified assets."
