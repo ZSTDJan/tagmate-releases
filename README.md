@@ -8,6 +8,10 @@ TagMate 会分析画面，结合历史打标习惯、标签定义和校正规则
 - [查看最新版本](https://github.com/ZSTDJan/tagmate-releases/releases/latest)
 - [加入 QQ 群](https://qm.qq.com/q/N60iPASGI0)
 
+<p align="center">
+  <img src="assets/showcase/page-01.png" alt="在 Eagle 中获取推荐并整理标签与文件夹" width="720">
+</p>
+
 ## 主要功能
 
 - **按图打标**：在 Eagle 中选择一张或多张图片，获取标签推荐，调整后确认写回。
@@ -15,6 +19,32 @@ TagMate 会分析画面，结合历史打标习惯、标签定义和校正规则
 - **自定义学习**：从已有标签样本中学习你的打标习惯，让推荐贴近自己的标签体系。
 - **角色管理**：支持使用预设角色，也可以新建、导入、导出和组合其他角色。
 - **结果校正**：通过推荐范围、排序权重、互斥、降权和阈值调整推荐结果。
+
+## 功能展示
+
+<details>
+<summary>查看完整功能展示（5 张）</summary>
+
+<p align="center">
+  <img src="assets/showcase/page-02.png" alt="补全与校正标签" width="720">
+</p>
+
+<p align="center">
+  <img src="assets/showcase/page-03.png" alt="标签关联文件夹" width="720">
+</p>
+
+<p align="center">
+  <img src="assets/showcase/page-04.png" alt="批量推荐复核" width="720">
+</p>
+
+<p align="center">
+  <img src="assets/showcase/page-05.png" alt="视觉相似与标签整理" width="720">
+</p>
+
+<p align="center">
+  <img src="assets/showcase/page-06.png" alt="角色学习与全量检验" width="720">
+</p>
+</details>
 
 ## 功能原理
 
