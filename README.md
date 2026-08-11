@@ -4,6 +4,8 @@
 
 TagMate 会分析画面，结合历史打标习惯、标签定义和校正规则推荐标签，并通过标签关联文件夹完成分类。支持单图和批量处理，推荐标签默认由你确认后写入。图片、标签、学习和推荐都在本机完成，不会上传。
 
+AI TagMate is a local-first AI tagging, visual similarity search, and image organization plugin for the Eagle image library app. It uses DINOv2 (visual feature extraction) to understand image appearance, MLP (tagging-pattern learning) to learn from your tagging history, and CLIP (tag-semantic alignment) to connect images with tag meanings. It provides tag recommendations, similar-image retrieval, batch tagging, and tag-linked folder organization. All image analysis and model training run locally on Windows; your images, tags, and learning data are not uploaded.
+
 ## 快速开始
 
 - **首次安装、网络稳定**：[下载 Eagle 插件](https://github.com/ZSTDJan/tagmate-releases/releases/latest/download/tagmate-frontend.eagleplugin)
