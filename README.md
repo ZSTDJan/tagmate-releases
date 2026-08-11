@@ -4,9 +4,13 @@
 
 TagMate 会分析画面，结合历史打标习惯、标签定义和校正规则推荐标签，并通过标签关联文件夹完成分类。支持单图和批量处理，推荐标签默认由你确认后写入。图片、标签、学习和推荐都在本机完成，不会上传。
 
-- [下载 Eagle 插件](https://github.com/ZSTDJan/tagmate-releases/releases/latest/download/tagmate-frontend.eagleplugin)
-- [查看最新版本](https://github.com/ZSTDJan/tagmate-releases/releases/latest)
-- [加入 QQ 群](https://qm.qq.com/q/N60iPASGI0)
+## 快速开始
+
+- **首次安装、网络稳定**：[下载 Eagle 插件](https://github.com/ZSTDJan/tagmate-releases/releases/latest/download/tagmate-frontend.eagleplugin)
+- **插件已安装但后端自动下载失败，或需要离线安装**：[123 网盘完整包](https://1860511954.share.123pan.cn/123pan/JEs5vd-BLYLh) / [百度网盘完整包](https://pan.baidu.com/s/1zOUqXBNUIKy8rpCk7QhTxw?pwd=k7z8)，提取码：`k7z8`
+- [查看版本记录](https://github.com/ZSTDJan/tagmate-releases/releases/latest) / [加入 QQ 群](https://qm.qq.com/q/N60iPASGI0)
+
+> GitHub Release 页面中除 `tagmate-frontend.eagleplugin` 外的安装器、模型和 Runtime 文件，是插件自动下载使用的组件。请不要逐个下载或自行拼装；手动完整安装请使用上面的网盘完整包。
 
 <p align="center">
   <img src="assets/showcase/page-01.png" alt="在 Eagle 中获取推荐并整理标签与文件夹" width="720">
@@ -68,6 +72,8 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 
 ### 在线安装
 
+适合尚未安装插件、网络较稳定的用户。
+
 1. 下载 [tagmate-frontend.eagleplugin](https://github.com/ZSTDJan/tagmate-releases/releases/latest/download/tagmate-frontend.eagleplugin)。
 2. 双击文件，在 Eagle 中确认安装。
 3. 打开 AI TagMate 标签助手，按首次启动提示下载并运行后端安装程序。
@@ -75,7 +81,7 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 
 ### 完整离线安装
 
-离线包包含 Eagle 插件、CPU/GPU 运行环境、模型和后端安装程序，可在断网环境安装。必须下载整个文件夹，不能只下载里面的 `.eagleplugin`。
+适合插件已安装但后端自动下载失败、网络不稳定或需要断网安装的用户。离线包包含 Eagle 插件、CPU/GPU 运行环境、模型和后端安装程序，必须下载整个文件夹，不能只下载里面的 `.eagleplugin`。
 
 - [百度网盘](https://pan.baidu.com/s/1zOUqXBNUIKy8rpCk7QhTxw?pwd=k7z8)，提取码：`k7z8`
 - [123 网盘](https://1860511954.share.123pan.cn/123pan/JEs5vd-BLYLh)
@@ -90,7 +96,7 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 - Eagle 4.0+
 - NVIDIA GPU 可选；有 NVIDIA 显卡时推荐使用 GPU
 - 使用本机固定磁盘，建议 SSD；不支持网络路径、移动盘或磁盘根目录
-- GPU 安装预留至少 9 GB，CPU 安装预留至少 5 GB；离线包本身约 5.34 GB
+- GPU 安装预留至少 9 GB，CPU 安装预留至少 5 GB；离线包本身约 5.30 GB（网盘页面显示约 4.93 GB）
 
 ## 常见问题
 
