@@ -1,0 +1,102 @@
+name: One-time R2 to GitHub release transfer 20260816
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tagmate-release-transfer-2026-08-16-012532
+  cancel-in-progress: false
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Download, verify, and upload release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: tagmate-2026.08.16.012532
+          R2_BASE_URL: https://pub-d1808de916864ed59b6df6d462946673.r2.dev/tagmate-2026.08.16.012532
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/tagmate-r2-transfer"
+          mkdir -p "$work"
+
+          cat > "$work/assets.tsv" <<'ASSETS'
+          installer-manifest.json	13103	d84912c53d9ec4f23a1f7307eef4025132ca73156c53e1bdd55aa273c759145d
+          tagmate-component-set.json	18105	c22dd69244ec4d0ba7451fa0b449fab7d7342622945c1f631614a66bad23d129
+          tagmate-components-backend-core-backend-core-7bff3aa929d5eb8a2f3de826775bf7f75df77db4.7z	961361	bd0116dca0a1a37f1995f0c958273bfc6fbe119f16fef77f92c6684543181d60
+          tagmate-components-clip-model-CLIP_--_----.md	13919	f02a74f46153a2f14a23c902194489778c0882ef38bbb23c38dc81fbfc5f5c04
+          tagmate-components-clip-model-config.json	4519	8a09b467700c58138c29d53c605b34ebc69beaadd13274a8a2af8ad2c2f4032a
+          tagmate-components-clip-model-merges.txt	524619	9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a
+          tagmate-components-clip-model-model.safetensors	1710540580	a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb
+          tagmate-components-clip-model-preprocessor_config.json	316	910e70b3956ac9879ebc90b22fb3bc8a75b6a0677814500101a4c072bd7857bd
+          tagmate-components-clip-model-special_tokens_map.json	389	f8c0d6c39aee3f8431078ef6646567b0aba7f2246e9c54b8b99d55c22b707cbf
+          tagmate-components-clip-model-tokenizer_config.json	905	deef455e52fa5e8151e339add0582e4235f066009601360999d3a9cda83b1129
+          tagmate-components-clip-model-tokenizer.json	2224003	a83e0809aa4c3af7208b2df632a7a69668c6d48775b3c3fe4e1b1199d1f8b8f4
+          tagmate-components-clip-model-vocab.json	961143	3f0c4f7d2086b61b38487075278ea9ed04edb53a03cbb045b86c27190fa8fb69
+          tagmate-components-dinov2-model-config.json	549	12df51c069a2dc1305e34ba71ef58bc2407ea553b75f4722a1715c1bce3bbed0
+          tagmate-components-dinov2-model-model.safetensors	1217522888	399fba97a95f22c36834418bc69373364a99af3a1153da1c0fb31db567c92e23
+          tagmate-components-dinov2-model-preprocessor_config.json	436	14e780d86fa1861f8751f868d7f45425b5feb55c38ca26f152ca5097ab30f828
+          tagmate-components-eagle-frontend-tagmate-frontend.eagleplugin	13708447	e7984f6fd7b82b69e51d1e3ee498b74d9b17d38c5e7d387dbb5c90baf300bf08
+          tagmate-components-preset-role-01-preset-role-01-2026.08.14.102826.7z	2997895	b1ca2d8f69b3ca2e37e51d7ab8d45ea0d09cb59af9dd640fe26fa5872fef91d1
+          tagmate-components-python-runtime-cpu-python-runtime-cpu-2.7.1-cpu.7z	228305024	2bd1e2048d8f0f128edbf2f9e9e71fb1b45533ed45eb9d1143a6be5a01487562
+          tagmate-components-python-runtime-gpu-python-runtime-gpu-2.7.1-cu128.7z	2100537284	3faabd931e0bd85231e5dfde70c9ac5763993d8905476af14199e5449aeb399e
+          tagmate-frontend.eagleplugin	13708447	e7984f6fd7b82b69e51d1e3ee498b74d9b17d38c5e7d387dbb5c90baf300bf08
+          tagmate-installer-core-1.bin	890208	44291a1d1a65498d7790e689c82c53f3ac7be4b9fae22bff5db0ea0ee0e2d1ac
+          tagmate-installer-core.exe	2257176	9bbdd58402622c6058bbaed98c0f7376ea3de5329d3efdc292a685b14fd6d865
+          tagmate-installer.exe	113152	ad4ec592b95a9a0d8d8cb5121fcf5609169b23b7916c186b223e58d504026573
+          ASSETS
+
+          while IFS=$'\t' read -r name expected_size expected_sha; do
+            remote_line="$(gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json assets --jq ".assets[] | select(.name == \"$name\") | [.size, .digest] | @tsv")"
+            if [[ -n "$remote_line" ]]; then
+              IFS=$'\t' read -r remote_size remote_digest <<< "$remote_line"
+              if [[ "$remote_size" != "$expected_size" || "$remote_digest" != "sha256:$expected_sha" ]]; then
+                echo "Existing asset mismatch: $name" >&2
+                exit 1
+              fi
+              echo "Already verified: $name"
+              continue
+            fi
+
+            file="$work/$name"
+            rm -f "$file"
+            curl --fail --location --show-error --silent --retry 10 --retry-all-errors --continue-at - --output "$file" "$R2_BASE_URL/$name"
+            actual_size="$(stat -c '%s' "$file")"
+            actual_sha="$(sha256sum "$file" | awk '{print $1}')"
+            if [[ "$actual_size" != "$expected_size" || "$actual_sha" != "$expected_sha" ]]; then
+              echo "Downloaded asset mismatch: $name size=$actual_size sha256=$actual_sha" >&2
+              exit 1
+            fi
+
+            gh release upload "$RELEASE_TAG" "$file" --repo "$GH_REPO"
+            rm -f "$file"
+
+            verified=false
+            for check in $(seq 1 30); do
+              remote_line="$(gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json assets --jq ".assets[] | select(.name == \"$name\") | [.size, .digest] | @tsv")"
+              if [[ "$remote_line" == "$expected_size"$'\t'"sha256:$expected_sha" ]]; then
+                verified=true
+                break
+              fi
+              sleep 5
+            done
+            if [[ "$verified" != true ]]; then
+              echo "Remote verification failed: $name" >&2
+              exit 1
+            fi
+            echo "Uploaded and verified: $name"
+          done < "$work/assets.tsv"
+
+          final="$(gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json isDraft,assets --jq '[.isDraft, (.assets | length)] | @tsv')"
+          if [[ "$final" != true$'\t'23 ]]; then
+            echo "Draft state or asset count mismatch: $final" >&2
+            exit 1
+          fi
+          echo "Draft contains 23 verified assets."
