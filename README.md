@@ -6,14 +6,6 @@ TagMate 会分析画面，结合历史打标习惯、标签定义和校正规则
 
 AI TagMate is a local-first AI tagging, visual similarity search, and image organization plugin for the Eagle image library app. It uses DINOv2 (visual feature extraction) to understand image appearance, MLP (tagging-pattern learning) to learn from your tagging history, and CLIP (tag-semantic alignment) to connect images with tag meanings. It provides tag recommendations, similar-image retrieval, batch tagging, and tag-linked folder organization. All image analysis and model training run locally on Windows; your images, tags, and learning data are not uploaded.
 
-## 快速开始
-
-- **首次安装、网络稳定**：[下载 Eagle 插件](https://github.com/ZSTDJan/tagmate-releases/releases/latest/download/tagmate-frontend.eagleplugin)
-- **插件已安装但后端自动下载失败，或需要离线安装**：[123 网盘完整包](https://1860511954.share.123pan.cn/123pan/JEs5vd-BLYLh) / [百度网盘完整包](https://pan.baidu.com/s/1zOUqXBNUIKy8rpCk7QhTxw?pwd=k7z8)，提取码：`k7z8`
-- [查看版本记录](https://github.com/ZSTDJan/tagmate-releases/releases/latest) / [加入 QQ 群](https://qm.qq.com/q/N60iPASGI0)
-
-> GitHub Release 页面中除 `tagmate-frontend.eagleplugin` 外的安装器、模型和 Runtime 文件，是插件自动下载使用的组件。请不要逐个下载或自行拼装；手动完整安装请使用上面的网盘完整包。
-
 <p align="center">
   <img src="assets/showcase/page-01.png" alt="在 Eagle 中获取推荐并整理标签与文件夹" width="720">
 </p>
@@ -52,6 +44,16 @@ AI TagMate is a local-first AI tagging, visual similarity search, and image orga
 </p>
 </details>
 
+## 内置的角色能做什么？
+
+内置角色包含 146 个标签，意味着本地工具已经学会这些概念，能够对陌生图完成这些概念的识别、推荐、取图等。它不是覆盖所有题材的万能识别库。比如人物、服饰、食品、动植物等专业细分类别，需要导入其他角色或学习自己的图库形成学习成果。
+
+- **建筑与空间**：建筑、室内、庭院、街道、住宅、办公、商业、教育、酒店、大厅、走廊等。
+- **景观与室外**：乔木、灌木、水体、花池、铺地、围墙、观景、城市景观等。
+- **材料与构造**：木、砖、石材、玻璃、金属、混凝土、陶板、格栅、门窗等。
+- **家具与设施**：座椅、桌、沙发、书架、导视、灯光、装置、游乐设施等。
+- **设计表达**：总平、平面、立面、剖面、功能分析、流线分析、排版、海报、色卡、效果参考等。
+
 ## 功能原理
 
 TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则校正”：系统先分析图片画面，由历史打标学习掌握你的分类思路和用词习惯，再用标签语义提供补充参考，最后通过推荐范围、排序权重、互斥、降权和阈值等校正设置整理结果。它给出的不是一套固定的通用答案，而是尽量贴近你自己的标签体系和判断方式。
@@ -64,11 +66,11 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 - **组合角色**：从多个角色中挑出需要的标签，轻松组成更适合当前用途的新角色。
 - **校正设置**：通过推荐范围、排序权重、互斥、降权和阈值细调结果，让推荐更贴近你的判断。
 
-## 当前预设角色
+## 第一次使用先做什么？
 
-随插件提供的预设角色可以直接使用，目前主要面向建筑摄影实景，包括建筑室内外、庭院、街道、空间功能、材料构件和常见环境内容。
-
-它不是覆盖所有图片类型的万能标签库。人物、服饰、食品、动植物和商品等其他专业内容，可以通过导入角色、组合角色或学习自己的图库来扩展。
+1. 打开插件，在 Eagle 选一张图，点击“获取推荐”。（注意：目前内置的能力对建筑实景表现更好。）
+2. 到“训练配置” → “历史打标学习 - MLP” → “生成 DINOv2 图库特征”。让系统认一遍图库并形成缓存，之后就可以正常使用“找相似”或“按标签取图”，推荐速度也会变快。
+3. 点击“获取推荐”旁边的“？”可以进入引导页面。点击帮助页中“使用指南”旁的“？”，打开完整指南手册。
 
 ## 下载与安装
 
