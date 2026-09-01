@@ -72,27 +72,9 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 2. 到“训练配置” → “历史打标学习 - MLP” → “生成 DINOv2 图库特征”。让系统认一遍图库并形成缓存，之后就可以正常使用“找相似”或“按标签取图”，推荐速度也会变快。
 3. 点击“获取推荐”旁边的“？”可以进入引导页面。点击帮助页中“使用指南”旁的“？”，打开完整指南手册。
 
-## 下载与安装
+## 安装
 
-### 在线安装
-
-适合尚未安装插件、网络较稳定的用户。
-
-1. 下载 [tagmate-frontend.eagleplugin](https://github.com/ZSTDJan/tagmate-releases/releases/latest/download/tagmate-frontend.eagleplugin)。
-2. 双击文件，在 Eagle 中确认安装。
-3. 打开 AI TagMate 标签助手，按首次启动提示下载并运行后端安装程序。
-4. 有 NVIDIA 显卡选择 GPU；没有 NVIDIA 显卡选择 CPU。
-
-### 完整离线安装
-
-适合插件已安装但后端自动下载失败、网络不稳定或需要断网安装的用户。离线包包含 Eagle 插件、CPU/GPU 运行环境、模型和后端安装程序，必须下载整个文件夹，不能只下载里面的 `.eagleplugin`。
-
-- [百度网盘](https://pan.baidu.com/s/1zOUqXBNUIKy8rpCk7QhTxw?pwd=k7z8)，提取码：`k7z8`
-- [123 网盘](https://1860511954.share.123pan.cn/123pan/JEs5vd-BLYLh)
-
-完整解压后，运行 `AI TagMate 标签助手-后端安装程序.exe`。不要移动或删除“安装数据”中的文件。安装结束时可安装或更新 Eagle 插件；如果没有出现 Eagle 确认窗口，请双击 `Eagle端插件安装文件.eagleplugin`。
-
-本免费工具没有使用付费代码签名，Windows 可能显示“未知发布者”或 SmartScreen 提示。请只从本页面列出的链接下载安装。
+请通过 Eagle 插件中心安装并打开 AI TagMate 标签助手。首次启动时，按界面提示选择 GPU 或 CPU，并通过插件内的正式安装流程下载和安装本地后端。
 
 ## 系统要求
 
@@ -100,13 +82,9 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 - Eagle 4.0+
 - NVIDIA GPU 可选；有 NVIDIA 显卡时推荐使用 GPU
 - 使用本机固定磁盘，建议 SSD；不支持网络路径、移动盘或磁盘根目录
-- GPU 安装预留至少 9 GB，CPU 安装预留至少 5 GB；离线包本身约 5.30 GB（网盘页面显示约 4.93 GB）
+- GPU 安装预留至少 9 GB，CPU 安装预留至少 5 GB
 
 ## 常见问题
-
-**在线安装和完整离线包应该选哪个？**
-
-网络稳定时可以只下载 Eagle 插件，首次打开后按提示下载安装本地后端。网络不稳定或需要断网安装时，下载完整离线包；两种方式安装的是同一套功能。
 
 **为什么安装 Eagle 插件后还需要安装本地后端？**
 
