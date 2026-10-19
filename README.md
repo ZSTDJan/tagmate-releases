@@ -2,6 +2,8 @@
 
 给 Eagle 图库使用的本地视觉标签与文件夹整理助手。
 
+反馈交流：QQ 群 [AI TagMate 反馈交流群](https://qm.qq.com/q/N60iPASGI0)（群号：89638242）。
+
 TagMate 会分析画面，结合历史打标习惯、标签定义和校正规则推荐标签，并通过标签关联文件夹完成分类。支持单图和批量处理，推荐标签默认由你确认后写入。图片、标签、学习和推荐都在本机完成，不会上传。
 
 AI TagMate is a local-first AI tagging, visual similarity search, and image organization plugin for the Eagle image library app. It uses DINOv2 (visual feature extraction) to understand image appearance, MLP (tagging-pattern learning) to learn from your tagging history, and CLIP (tag-semantic alignment) to connect images with tag meanings. It provides tag recommendations, similar-image retrieval, batch tagging, and tag-linked folder organization. All image analysis and model training run locally on Windows; your images, tags, and learning data are not uploaded.
@@ -68,7 +70,7 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 
 ## 第一次使用先做什么？
 
-1. 打开插件，在 Eagle 选一张图，点击“获取推荐”。（注意：目前内置的能力对建筑实景表现更好。）
+1. 首次打开插件时，先按界面引导完成本地后端安装；安装完成后，在 Eagle 选一张图，点击“获取推荐”。（注意：目前内置的能力对建筑实景表现更好。）
 2. 到“训练配置” → “历史打标学习 - MLP” → “生成 DINOv2 图库特征”。让系统认一遍图库并形成缓存，之后就可以正常使用“找相似”或“按标签取图”，推荐速度也会变快。
 3. 点击“获取推荐”旁边的“？”可以进入引导页面。点击帮助页中“使用指南”旁的“？”，打开完整指南手册。
 
@@ -78,9 +80,9 @@ TagMate 的推荐过程可以理解为“看图 + 学习惯 + 对语义 + 规则
 
 ## 系统要求
 
-- Windows 10/11 64 位
+- Windows 10/11 x64（64 位 x86）
 - Eagle 4.0+
-- NVIDIA GPU 可选；有 NVIDIA 显卡时推荐使用 GPU
+- GPU 为可选项：有兼容的 NVIDIA 显卡且驱动版本为 570.65 或更高时可选 GPU；否则选 CPU，具体以安装器检测结果为准。
 - 使用本机固定磁盘，建议 SSD；不支持网络路径、移动盘或磁盘根目录
 - GPU 安装预留至少 9 GB，CPU 安装预留至少 5 GB
 
@@ -102,13 +104,16 @@ Eagle 插件负责界面和操作，本地后端负责图片分析、推荐、�
 
 获取推荐本身不会写回。标签和通过标签气泡选择的文件夹会在你确认后写入；通过图片文件夹面板进行的文件夹操作会立即生效。
 
+**重新学习会覆盖已有成果吗？**
+
+会。已有学习成果的普通角色（包括导入角色）会在开始前显示角色名称和独立确认；点击“重新学习”后才开始对齐和训练。重新学习成功后无法撤销，导入角色原有的学习效果不保证能够重建；如需保留，请先取消并导出角色包备份。
+
 **图片、标签和训练数据会不会上传？**
 
 不会。图片分析、标签、学习和推荐均在本机完成；在线版只在首次安装或更新程序文件时需要联网下载。
 
 ## 联系与反馈
 
-- QQ 群：[点击链接加入群聊【AI TagMate 内测】](https://qm.qq.com/q/N60iPASGI0)
 - 问题反馈：[GitHub Issues](https://github.com/ZSTDJan/tagmate-releases/issues)
 
 ## 使用许可
