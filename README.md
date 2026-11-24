@@ -8,53 +8,57 @@ TagMate 会分析画面，结合历史打标习惯、标签定义和校正规则
 
 AI TagMate is a local-first AI tagging, visual similarity search, and image organization plugin for the Eagle image library app. It uses DINOv2 (visual feature extraction) to understand image appearance, MLP (tagging-pattern learning) to learn from your tagging history, and CLIP (tag-semantic alignment) to connect images with tag meanings. It provides tag recommendations, similar-image retrieval, batch tagging, and tag-linked folder organization. All image analysis and model training run locally on Windows; your images, tags, and learning data are not uploaded.
 
+[在 Eagle 插件中心安装或更新](https://community-cn.eagle.cool/plugin/0f3550d5-a3e8-4d9f-8b81-323a0912f34f)
+
 <p align="center">
-  <img src="assets/showcase/page-01.png" alt="在 Eagle 中获取推荐并整理标签与文件夹" width="720">
+  <img src="assets/showcase/v1.0.1/workflow.png" alt="TagMate 工作流程：选图、识别、确认，以及可选的自定义学习" width="800">
 </p>
 
 ## 主要功能
 
-- **按图打标**：在 Eagle 中选择一张或多张图片，获取标签推荐，调整后确认写回。
-- **按标整理**：支持以图找图、按标签筛选候选图、查找高分未打和低分误打图片。
-- **自定义学习**：从已有标签样本中学习你的打标习惯，让推荐贴近自己的标签体系。
-- **角色管理**：支持使用预设角色，也可以新建、导入、导出和组合其他角色。
-- **结果校正**：通过推荐范围、排序权重、互斥、降权和阈值调整推荐结果。
+### 打标与文件夹分类
 
-## 功能展示
+选中一张或多张图片，获取推荐后，可以保留、淘汰或补充标签，再逐张确认或一次确认整批。批量上限默认 1000 张，可调至 5000 张。
 
-<details>
-<summary>查看完整功能展示（5 张）</summary>
+批量推荐和写入支持暂停、继续，整批写入的标签变更可按批次撤销。标签关联的文件夹归属可在逐张确认时一起保存，整批确认只处理标签。
 
 <p align="center">
-  <img src="assets/showcase/page-02.png" alt="补全与校正标签" width="720">
+  <img src="assets/showcase/v1.0.1/batch-tagging.png" alt="单张和批量打标、人工校正及标签关联文件夹" width="800">
 </p>
 
-<p align="center">
-  <img src="assets/showcase/page-03.png" alt="标签关联文件夹" width="720">
-</p>
+### 找相似与按标签取图
+
+选一张参考图查找视觉相近的素材，也可以按单标签或双标签从图库中取图。候选图片集中到临时文件夹，方便检查和整理。
 
 <p align="center">
-  <img src="assets/showcase/page-04.png" alt="批量推荐复核" width="720">
+  <img src="assets/showcase/v1.0.1/image-retrieval.png" alt="以图找相似、单标签和双标签取图" width="800">
 </p>
 
-<p align="center">
-  <img src="assets/showcase/page-05.png" alt="视觉相似与标签整理" width="720">
-</p>
+### 学习与角色管理
+
+可以直接使用内置预设或导入适合的角色。需要让推荐贴近自己的打标习惯时，可以用已有样本训练角色，并通过校正设置调整推荐。角色支持导入、导出和组合。
 
 <p align="center">
-  <img src="assets/showcase/page-06.png" alt="角色学习与全量检验" width="720">
+  <img src="assets/showcase/v1.0.1/training-and-roles.png" alt="角色管理、训练配置及全量检验" width="800">
 </p>
-</details>
+
+### 窗口收起与后端保温
+
+可通过标题栏按钮收起插件窗口，任务继续运行。Eagle 保持运行时，关闭插件窗口后，本地后端最多保温 30 分钟，减少短时间重开时的预热等待。
 
 ## 内置的角色能做什么？
 
-<u>内置角色包含 146 个标签，意味着本地工具已经学会这些概念，能够对陌生图完成这些概念的识别、推荐、取图等。</u>它不是覆盖所有题材的万能识别库。比如人物、服饰、食品、动植物等专业细分类别，需要导入其他角色或学习自己的图库形成学习成果。
+内置的建筑与设计参考角色包含 146 个标签，按下图分为 14 组，主要面向建筑摄影与设计参考。针对人物、服饰、食品、动植物等专业题材，可以导入适合的角色，或用自己的图库训练。
 
 - **建筑与空间**：建筑、室内、庭院、街道、住宅、办公、商业、教育、酒店、大厅、走廊等。
 - **景观与室外**：乔木、灌木、水体、花池、铺地、围墙、观景、城市景观等。
 - **材料与构造**：木、砖、石材、玻璃、金属、混凝土、陶板、格栅、门窗等。
 - **家具与设施**：座椅、桌、沙发、书架、导视、灯光、装置、游乐设施等。
 - **设计表达**：总平、平面、立面、剖面、功能分析、流线分析、排版、海报、色卡、效果参考等。
+
+<p align="center">
+  <img src="assets/showcase/v1.0.1/built-in-preset.png" alt="建筑与设计参考预设：14 个分组、146 个标签" width="800">
+</p>
 
 ## 功能原理
 
@@ -102,7 +106,7 @@ Eagle 插件负责界面和操作，本地后端负责图片分析、推荐、�
 
 **推荐结果会不会直接修改 Eagle 中的标签和文件夹？**
 
-获取推荐本身不会写回。标签和通过标签气泡选择的文件夹会在你确认后写入；通过图片文件夹面板进行的文件夹操作会立即生效。
+获取推荐本身不会写回。逐张确认可以同时保存标签和通过标签气泡调整的文件夹归属。整批确认只保存标签变更。通过图片文件夹面板直接调整归属会立即生效。
 
 **重新学习会覆盖已有成果吗？**
 
