@@ -11,6 +11,10 @@ AI TagMate is a local-first AI tagging, visual similarity search, and image orga
 [在 Eagle 插件中心安装或更新](https://community-cn.eagle.cool/plugin/0f3550d5-a3e8-4d9f-8b81-323a0912f34f)
 
 <p align="center">
+  <img src="assets/showcase/hero.png" alt="AI TagMate 标签助手：新图入库，不再从零开始" width="800">
+</p>
+
+<p align="center">
   <img src="assets/showcase/v1.0.1/workflow.png" alt="TagMate 工作流程：选图、识别、确认，以及可选的自定义学习" width="800">
 </p>
 
